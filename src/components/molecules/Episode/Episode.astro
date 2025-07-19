@@ -1,0 +1,33 @@
+---
+import { toHour } from "../../../libs/toHour";
+import styles from "./Episode.module.scss";
+interface props {
+  item: any;
+}
+
+const props = Astro.props as props;
+---
+
+<div class={styles.episode}>
+  <div class={styles.thumbnail}>
+    <div class={styles.container_thumbnail_img}>
+      <img
+        class={styles.thumbnail_img}
+        src={`https://image.tmdb.org/t/p/w300/${props.item.still_picture_path}`}
+        alt={props.item.name}
+        loading="lazy"
+      />
+    </div>
+  </div>
+
+  <div class={styles.episode_info}>
+    <div class={styles.episode_title}>
+      {props.item.episode_number}.
+      {props.item.name}
+    </div>
+    <section class={styles.episode_metadata}>
+      <section class={styles.item}>{toHour(props.item.runtime)}</section>
+      <!-- <section class={styles.item}>{props.item.vote_average.toFixed(2)} GB</section> -->
+    </section>
+  </div>
+</div>

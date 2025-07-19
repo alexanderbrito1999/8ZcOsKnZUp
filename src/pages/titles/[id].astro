@@ -1,0 +1,64 @@
+---
+import Season from "../../components/molecules/Season/Season.astro";
+import NotFound from "../../components/molecules/NotFound/NotFound.astro";
+import TitleInformation from "../../components/molecules/TitleInformation/TitleInformation.astro";
+import Banner from "../../components/organisms/Banner/Banner.astro";
+import { config } from "../../config/config";
+import Layout from "../../layouts/Layout.astro";
+import MetaTags from "../../MetaTags.astro";
+import Screenshot from "../../components/molecules/Screenshot/Screenshot.astro";
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+const { id } = Astro.params;
+const title_id = id?.split("-")[0];
+let data;
+try {
+  const response = await fetch(`${config.BACKEND_URL}/api/v1/title_client/${title_id}`);
+
+  if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    console.log(response.status);
+    return new Response(undefined, {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
+  data = await response.json();
+} catch (error) {
+  console.error("Error fetching titles for slideshow:", error);
+  // Aquí podrías establecer un mensaje de error o un array vacío para mostrar "No titles"
+}
+
+const episodes = data?.episodes || [];
+const seasonsMap = new Map();
+for (const episode of episodes) {
+  const season = episode.season_number;
+  if (!seasonsMap.has(season)) {
+    seasonsMap.set(season, {
+      season_number: season,
+      episodes: [],
+    });
+  }
+  seasonsMap.get(season).episodes.push(episode);
+}
+const seasons = Array.from(seasonsMap.values()).sort((a, b) => a.season_number - b.season_number);
+// console.log(data);
+---
+
+<Layout>
+  <MetaTags
+    slot="head"
+    title={`${data.title} (${new Date(data.date || Date.now()).getFullYear()})`}
+    description={data.overview}
+  />
+  <Banner title={data} />
+  <TitleInformation title={data} />
+  <Screenshot title={data} />
+  {seasons.map((i) => <Season season={i} />)}
+</Layout>
+<!-- if (!response.ok) {
+  // Renderizar tu componente NotFound manualmente
+  const NotFoundComponent = await NotFound();
+  return NotFoundComponent;
+} -->

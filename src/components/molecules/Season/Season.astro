@@ -1,0 +1,22 @@
+---
+import Episode from "../Episode/Episode.astro";
+import styles from "./Season.module.scss";
+interface props {
+  season: any;
+}
+
+const props = Astro.props as props;
+---
+
+<!-- <div class={styles.season}>
+  {props.season.episodes.map((i: any) => <Episode item={i} />)}
+</div> -->
+<div class={styles.wrapper}>
+  <div class={styles.top}>
+    <div class={styles.title}>TEMPORADA {props.season.season_number}</div>
+    <div class={styles.title}>Episodios: {props.season.episodes?.length}</div>
+  </div>
+  <div class={styles.grid}>
+    {props.season.episodes.map((i: any) => <Episode item={i} />)}
+  </div>
+</div>

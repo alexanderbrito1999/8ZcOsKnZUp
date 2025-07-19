@@ -1,0 +1,32 @@
+---
+import { config } from "../../../config/config";
+import { toHour } from "../../../libs/toHour";
+import styles from "./Screenshot.module.scss";
+interface props {
+  title: any;
+}
+
+const props = Astro.props as props;
+---
+
+<div class={styles.wrapper}>
+  <div class={styles.top}>
+    <div class={styles.title}>CAPTURAS</div>
+  </div>
+  <picture class={styles.picture}>
+    <source
+      media="(max-width: 780px)"
+      srcset={`${config.BACKEND_URL}/static/screenshots/w500/${props.title.picture_name}.webp`}
+    />
+    <source
+      media="(min-width: 781px)"
+      srcset={`${config.BACKEND_URL}/static/screenshots/w1000/${props.title.picture_name}.webp`}
+    />
+    <img
+      class={styles.image}
+      src={`${config.BACKEND_URL}/static/screenshots/w1000/${props.title.picture_name}.webp`}
+      alt={props.title.title}
+      loading="lazy"
+    />
+  </picture>
+</div>
