@@ -7,6 +7,7 @@ import { config } from "../../config/config";
 import Layout from "../../layouts/Layout.astro";
 import MetaTags from "../../MetaTags.astro";
 import Screenshot from "../../components/molecules/Screenshot/Screenshot.astro";
+import Metadata from "../../components/molecules/Metadata/Metadata.astro";
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 
@@ -55,6 +56,7 @@ const seasons = Array.from(seasonsMap.values()).sort((a, b) => a.season_number -
   <Banner title={data} />
   <TitleInformation title={data} />
   <Screenshot title={data} />
+  <Metadata title={data} />
   {seasons.map((i) => <Season season={i} />)}
 </Layout>
 <!-- if (!response.ok) {

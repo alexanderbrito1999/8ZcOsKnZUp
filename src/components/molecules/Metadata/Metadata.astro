@@ -1,6 +1,7 @@
 ---
-import styles from "./TitleInformation.module.scss";
-
+import { config } from "../../../config/config";
+import { toHour } from "../../../libs/toHour";
+import styles from "./Metadata.module.scss";
 interface props {
   title: any;
 }
@@ -8,10 +9,10 @@ interface props {
 const props = Astro.props as props;
 ---
 
-<div class={styles.title_information}>
-  {/* // !Overview */}
-  {props.title.overview.length !== 0 && <div class={styles.overview}>{props.title.overview}</div>}
-  {/* // !Information */}
+<div class={styles.wrapper}>
+  <div class={styles.top}>
+    <div class={styles.title}>DETALLES</div>
+  </div>
   <div class={styles.information_grid}>
     <div class={styles.row}>
       <section class={styles.row_title}>Título</section>
